@@ -1,28 +1,37 @@
-function testButton(){
-    alert("JavaScript is working ✅");
-}
-let availableMachines = [];
+let exercises = [
+  { name: "Push Ups", time: 30 },
+  { name: "Rest", time: 15 },
+  { name: "Squats", time: 30 },
+  { name: "Rest", time: 15 },
+  { name: "Plank", time: 30 },
+];
 
-function scanGym() {
-  const input = document.createElement("input");
-  input.type = "file";
-  input.accept = "image/*";
-  input.capture = "environment";
+function startWorkout() {
+  let box = document.getElementById("workoutBox");
+  let i = 0;
 
-  input.onchange = () => {
-    alert("Gym photo saved ✅\n(בעתיד זה יזהה אוטומטית את המכשירים)");
-    
-    // בינתיים נוסיף מכשירים ידנית לדוגמה
-    availableMachines = [
-      "Bench Press",
-      "Lat Pulldown",
-      "Leg Press",
-      "Cable Machine",
-      "Dumbbells"
-    ];
+  function nextExercise() {
+    if (i >= exercises.length) {
+      box.innerHTML = "Workout Complete 💪🔥";
+      return;
+    }
 
-    localStorage.setItem("machines", JSON.stringify(availableMachines));
-  };
+    let ex = exercises[i];
+    let timeLeft = ex.time;
 
-  input.click();
+    box.innerHTML = `<h2>${ex.name}</h2><p>${timeLeft}s</p>`;
+
+    let timer = setInterval(() => {
+      timeLeft--;
+      box.innerHTML = `<h2>${ex.name}</h2><p>${timeLeft}s</p>`;
+
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        i++;
+        nextExercise();
+      }
+    }, 1000);
+  }
+
+  nextExercise();
 }
