@@ -1,3 +1,3 @@
-function test() {
-  alert("The button works! 💪");
+function testButton(){
+    alert("JavaScript is working ✅");
 }
