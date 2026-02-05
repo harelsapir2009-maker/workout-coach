@@ -26,16 +26,19 @@
         }
     </style>
 </head>
-<body>
-<br><br>
-<button onclick="scanGym()">Scan My Gym 📷</button>
-    <div>
-        <h1>Workout Coach 💪</h1>
-        <p>Your personal training app is live.</p>
-        <button onclick="startWorkout()">Start Today’s Workout ▶️</button>
-<div id="workoutBox" style="margin-top:30px;font-size:22px;"></div>
-    </div>
+    <div class="app">
+  <h1>Workout Coach 💪</h1>
 
-    <script src="app.js"></script>
+  <div class="card" onclick="scanGym()">
+    📷 Scan My Gym
+  </div>
+
+  <div class="card" onclick="startWorkout()">
+    ▶️ Start Today’s Workout
+  </div>
+
+  <div id="workoutBox" class="workoutBox"></div>
+</div>
+<body>
 </body>
 </html>
