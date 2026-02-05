@@ -1,62 +1,138 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workout Coach</title>
-    <style>
-        body{
-            margin:0;
-            height:100vh;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            background:linear-gradient(black,#111);
-            color:white;
-            font-family:Arial, Helvetica, sans-serif;
-            text-align:center;
-        }
-        button{
-            margin-top:30px;
-            padding:20px 40px;
-            font-size:22px;
-            border:none;
-            border-radius:15px;
-            background:#00ff88;
-        }
-        .app{
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Workout Coach</title>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial, Helvetica, sans-serif;
+  background:black;
+  color:white;
   text-align:center;
-  padding:20px;
-  font-family:Arial;
 }
 
-.card{
-  background:#1cff88;
-  margin:20px;
-  padding:25px;
-  border-radius:20px;
-  font-size:24px;
-}
-
-.workoutBox{
+h1{
   margin-top:40px;
-  font-size:28px;
+  font-size:40px;
 }
-    </style>
+
+button{
+  width:85%;
+  padding:22px;
+  margin:15px;
+  font-size:22px;
+  border:none;
+  border-radius:20px;
+  background:#19ff8c;
+}
+
+.screen{
+  display:none;
+}
+
+.active{
+  display:block;
+}
+
+.exercise{
+  font-size:38px;
+  margin-top:60px;
+}
+
+.timer{
+  font-size:60px;
+  margin-top:20px;
+}
+
+.small{
+  font-size:18px;
+  margin-top:30px;
+}
+</style>
 </head>
-    <div class="app">
-  <h1>Workout Coach 💪</h1>
 
-  <div class="card" onclick="scanGym()">
-    📷 Scan My Gym
-  </div>
-
-  <div class="card" onclick="startWorkout()">
-    ▶️ Start Today’s Workout
-  </div>
-
-  <div id="workoutBox" class="workoutBox"></div>
-</div>
 <body>
+
+<!-- HOME -->
+<div id="home" class="screen active">
+  <h1>Workout Coach 💪</h1>
+  <button onclick="scanGym()">📷 Scan My Gym</button>
+  <button onclick="startWorkout()">▶ Start Today’s Workout</button>
+</div>
+
+<!-- WORKOUT -->
+<div id="workout" class="screen">
+  <div class="exercise" id="exerciseName"></div>
+  <div class="timer" id="timer"></div>
+</div>
+
+<!-- FEEDBACK -->
+<div id="feedback" class="screen">
+  <h1>Great Job 🔥</h1>
+  <p class="small">Was the workout too easy, good, or hard?</p>
+  <button onclick="saveFeedback('easy')">Easy</button>
+  <button onclick="saveFeedback('good')">Good</button>
+  <button onclick="saveFeedback('hard')">Hard</button>
+</div>
+
+<script>
+let exercises = [
+  {name:"Push Ups", time:30},
+  {name:"Squats", time:30},
+  {name:"Plank", time:30},
+  {name:"Lunges", time:30}
+];
+
+let current = 0;
+let countdown;
+let timeLeft;
+
+function showScreen(id){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function scanGym(){
+  alert("Gym scanned ✅ (next step we make it smart)");
+}
+
+function startWorkout(){
+  showScreen("workout");
+  current = 0;
+  nextExercise();
+}
+
+function nextExercise(){
+  if(current >= exercises.length){
+    showScreen("feedback");
+    return;
+  }
+
+  let ex = exercises[current];
+  document.getElementById("exerciseName").innerText = ex.name;
+  timeLeft = ex.time;
+  document.getElementById("timer").innerText = timeLeft + "s";
+
+  clearInterval(countdown);
+
+  countdown = setInterval(()=>{
+    timeLeft--;
+    document.getElementById("timer").innerText = timeLeft + "s";
+    if(timeLeft <= 0){
+      clearInterval(countdown);
+      current++;
+      setTimeout(nextExercise,1000);
+    }
+  },1000);
+}
+
+function saveFeedback(level){
+  alert("Saved: " + level + " 💾");
+  showScreen("home");
+}
+</script>
+
 </body>
 </html>
