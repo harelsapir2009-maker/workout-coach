@@ -3,136 +3,56 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>Workout Coach</title>
-
 <style>
 body{
   margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:black;
+  font-family: -apple-system, BlinkMacSystemFont;
+  background:#0b0b0b;
   color:white;
   text-align:center;
 }
-
-h1{
-  margin-top:40px;
-  font-size:40px;
+.card{
+  background:#1c1c1e;
+  margin:20px;
+  padding:30px;
+  border-radius:20px;
+  font-size:24px;
 }
-
 button{
-  width:85%;
-  padding:22px;
-  margin:15px;
+  width:90%;
+  padding:25px;
   font-size:22px;
+  margin:15px 0;
   border:none;
   border-radius:20px;
-  background:#19ff8c;
+  background:#00ff88;
 }
-
-.screen{
-  display:none;
+#exercise{
+  font-size:40px;
+  margin-top:40px;
 }
-
-.active{
-  display:block;
+#timer{
+  font-size:80px;
+  margin:20px;
 }
-
-.exercise{
-  font-size:38px;
-  margin-top:60px;
-}
-
-.timer{
-  font-size:60px;
-  margin-top:20px;
-}
-
-.small{
-  font-size:18px;
-  margin-top:30px;
-}
+.hidden{display:none;}
 </style>
 </head>
-
 <body>
 
-<!-- HOME -->
-<div id="home" class="screen active">
-  <h1>Workout Coach 💪</h1>
-  <button onclick="scanGym()">📷 Scan My Gym</button>
-  <button onclick="startWorkout()">▶ Start Today’s Workout</button>
+<h1>Workout Coach 💪</h1>
+
+<div id="home">
+  <button onclick="startWorkout()">Start Today’s Workout ▶️</button>
+  <button onclick="resetWeek()">Reset Week</button>
 </div>
 
-<!-- WORKOUT -->
-<div id="workout" class="screen">
-  <div class="exercise" id="exerciseName"></div>
-  <div class="timer" id="timer"></div>
+<div id="workout" class="hidden">
+  <div id="exercise"></div>
+  <div id="timer"></div>
+  <button onclick="nextExercise()">Next</button>
 </div>
 
-<!-- FEEDBACK -->
-<div id="feedback" class="screen">
-  <h1>Great Job 🔥</h1>
-  <p class="small">Was the workout too easy, good, or hard?</p>
-  <button onclick="saveFeedback('easy')">Easy</button>
-  <button onclick="saveFeedback('good')">Good</button>
-  <button onclick="saveFeedback('hard')">Hard</button>
-</div>
-
-<script>
-let exercises = [
-  {name:"Push Ups", time:30},
-  {name:"Squats", time:30},
-  {name:"Plank", time:30},
-  {name:"Lunges", time:30}
-];
-
-let current = 0;
-let countdown;
-let timeLeft;
-
-function showScreen(id){
-  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
-
-function scanGym(){
-  alert("Gym scanned ✅ (next step we make it smart)");
-}
-
-function startWorkout(){
-  showScreen("workout");
-  current = 0;
-  nextExercise();
-}
-
-function nextExercise(){
-  if(current >= exercises.length){
-    showScreen("feedback");
-    return;
-  }
-
-  let ex = exercises[current];
-  document.getElementById("exerciseName").innerText = ex.name;
-  timeLeft = ex.time;
-  document.getElementById("timer").innerText = timeLeft + "s";
-
-  clearInterval(countdown);
-
-  countdown = setInterval(()=>{
-    timeLeft--;
-    document.getElementById("timer").innerText = timeLeft + "s";
-    if(timeLeft <= 0){
-      clearInterval(countdown);
-      current++;
-      setTimeout(nextExercise,1000);
-    }
-  },1000);
-}
-
-function saveFeedback(level){
-  alert("Saved: " + level + " 💾");
-  showScreen("home");
-}
-</script>
-
+<script src="app.js"></script>
 </body>
 </html>
